@@ -1,19 +1,8 @@
-// import { useAuth } from "@clerk/nextjs"
-// import { useRouter } from "next/router"
-// import { useEffect } from "react"
 import Image from "next/image"
 import { SignIn } from "@clerk/nextjs"
 
 
 export default function SignInPage() {
-    // const { isSignedIn } = useAuth()
-    // const router = useRouter()
-
-    // useEffect(() => {
-    //     if (isSignedIn) {
-    //         router.push("/")
-    //     }
-    // }, [isSignedIn])
     return (
         <>
             <div className='flex flex-wrap items-center justify-between h-screen'>
