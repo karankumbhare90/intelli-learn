@@ -8,5 +8,5 @@ export const usersTable = pgTable("users", {
     profileImage: varchar({ length: 255 }),
     createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
-    subscriptionId: varchar(),
+    subscriptionId: varchar()
 });
