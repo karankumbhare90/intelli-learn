@@ -23,7 +23,6 @@ export default function Provider({ children }) {
             email: user?.emailAddresses[0]?.emailAddress,
             profileImage: user?.hasImage ? user.imageUrl : null
         })
-        console.log(result.data.data);
         setUserDetail(result.data.data);
     }
 
