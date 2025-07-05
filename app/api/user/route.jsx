@@ -8,7 +8,7 @@ export async function POST(req) {
 
     // If User Already Exists
     const existingUser = await db.select().from(usersTable).where(eq(usersTable.email, email));
-    if (existingUser) {
+    if (existingUser.length > 0) {
         return NextResponse.json(
             {
                 status: 409,
@@ -24,8 +24,6 @@ export async function POST(req) {
         email: email,
         profileImage: profileImage
     }).returning(usersTable);
-
-    console.log(newUser);
 
     return NextResponse.json({ status: 201, message: 'User created successfully !!', data: newUser });
 }
