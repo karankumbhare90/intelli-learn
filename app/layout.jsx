@@ -1,6 +1,7 @@
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import Provider from "./provider";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -20,7 +21,9 @@ export default function RootLayout({ children }) {
         <body
           className={`${poppins.variable} antialiased`}
         >
-          {children}
+          <Provider>
+            {children}
+          </Provider>
         </body>
       </html>
     </ClerkProvider>
