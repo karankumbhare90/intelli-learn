@@ -15,7 +15,7 @@ import { useState } from 'react'
 export default function AddNewCourseDialog({ children }) {
 
     const [formData, setFormData] = useState({
-        ame: '',
+        name: '',
         description: '',
         includeVideo: false,
         noOfChapters: 1,
@@ -57,7 +57,8 @@ export default function AddNewCourseDialog({ children }) {
                             <div className='flex items-center gap-3'>
                                 <label className="text-primary font-semibold">Include Video</label>
                                 <Switch
-                                    onCheckChange={() => onHandleInputChange('includeVideo', !formData?.includeVideo)}
+                                    checked={formData.includeVideo}
+                                    onCheckedChange={(checked) => onHandleInputChange('includeVideo', checked)}
                                 />
                             </div>
                             <div className='flex flex-col gap-3'>
