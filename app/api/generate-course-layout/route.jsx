@@ -78,6 +78,8 @@ export async function POST(req) {
         const rawJSON = responseText.replace('```json', '').replace('```', '');
         const JSONResponse = JSON.parse(rawJSON);
 
+        // Generate Banner Image
+
         // Uncomment when ready to persist to DB
         const result = await db.insert(coursesTable).values({
             ...formData,
