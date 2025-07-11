@@ -20,6 +20,7 @@ import { Loader2Icon, Sparkle } from 'lucide-react';
 import { useCallback, useMemo, useState } from 'react';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
+import { useRouter } from 'next/navigation';
 
 const defaultForm = {
     name: '',
@@ -33,6 +34,7 @@ const defaultForm = {
 export default function AddNewCourseDialog({ children }) {
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState(defaultForm);
+    const router = useRouter();
 
     // Ensure stable UUID per instance
     const courseId = useMemo(() => uuidv4(), []);
@@ -55,7 +57,7 @@ export default function AddNewCourseDialog({ children }) {
 
             const { data } = await axios.post('/api/generate-course-layout', payload);
 
-            console.log('Generated course layout:', data);
+            router.push(`/workspace/course/${courseId}`);
             // Optionally: route, toast, or update course state here
         } catch (err) {
             console.error('Error generating course:', err);
