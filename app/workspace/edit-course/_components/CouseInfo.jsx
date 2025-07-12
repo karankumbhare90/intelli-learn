@@ -1,15 +1,36 @@
 import { Button } from '@/components/ui/button';
-import { Book, Clock, TrendingUp } from 'lucide-react';
+import axios from 'axios';
+import { Book, Clock, Loader2Icon, Settings, TrendingUp } from 'lucide-react';
 import Image from 'next/image';
-import React from 'react'
+import React, { useState } from 'react'
+import { toast } from 'sonner';
 
 export default function CourseInfo({ course }) {
 
 
     const courseLayout = course?.courseJSON?.course;
+    const [loading, setLoading] = useState(false);
 
     if (!courseLayout) {
         return;
+    }
+
+    async function GenerateCourseContent() {
+        // Call the API to generate course courseIdcontent
+        setLoading(true);
+        try {
+            const result = await axios.post(`/api/generate-course-content`, {
+                courseJSON: courseLayout,
+                courseTitle: course?.name,
+                courseId: course?.cid
+            });
+
+        } catch (error) {
+            toast.error(error?.message || `Something went wrong !!`);
+        }
+        finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -41,7 +62,7 @@ export default function CourseInfo({ course }) {
                     </div>
 
                 </div>
-                <Button className={'w-auto cursor-pointer'}>Generate Content</Button>
+                <Button onClick={GenerateCourseContent} disabled={loading} className={'w-auto cursor-pointer'}>{loading ? <Loader2Icon className='animate-spin' /> : <Settings />}Generate Content</Button>
             </div>
             {/* <div className='relative overflow-hidden'> */}
             <Image

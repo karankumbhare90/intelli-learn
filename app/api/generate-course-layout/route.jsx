@@ -4,6 +4,7 @@ import { currentUser } from '@clerk/nextjs/server';
 import { GoogleGenAI } from '@google/genai';
 import { NextResponse } from 'next/server';
 import { InferenceClient } from "@huggingface/inference";
+import { ai } from '../generate-course-content/route';
 
 const PROMPT = `
 Generate Learning Course based on the following details. Make sure to include:
@@ -52,10 +53,6 @@ export async function POST(req) {
         if (!user) {
             return NextResponse.json({ status: 401, message: 'Unauthorized user', data: null });
         }
-
-        const ai = new GoogleGenAI({
-            apiKey: process.env.GEMINI_API_KEY,
-        });
 
         const config = {
             thinkingConfig: {
