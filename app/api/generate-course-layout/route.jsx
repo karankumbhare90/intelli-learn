@@ -3,9 +3,23 @@ import { coursesTable } from '@/config/schema';
 import { currentUser } from '@clerk/nextjs/server';
 import { GoogleGenAI } from '@google/genai';
 import { NextResponse } from 'next/server';
+import { InferenceClient } from "@huggingface/inference";
 
 const PROMPT = `
-Generate Learning Course based on the following details. Make sure to include: Course Name, Description, Course Banner Image Prompt (Create a modern, flat-style 2D digital illustration representing the user's Topic. Include UI/UX elements such as mockup screens, text blocks, icons, buttons, and creative workspace tools. Add symbolic elements related to the user's Course, like sticky notes, design components, and visual aids. Use a vibrant color palette (blues, purples, oranges) with a clean, professional look. The illustration should feel creative, tech-savvy, and educational, ideal for visualizing concepts in the user's Course) for Course Banner in 3D format. Also include Chapter Names, Topics under each chapter, Duration for each chapter, etc. in JSON format only. Schema:
+Generate Learning Course based on the following details. Make sure to include:
+
+- **Course Name**
+- **Description**
+- **Course Banner Image Prompt**: Create a modern, flat-style 2D digital illustration representing the user's topic. Include UI/UX elements such as mockup screens, text blocks, icons, buttons, and creative workspace tools. Add symbolic elements related to the user's course, like sticky notes, design components, and visual aids. Use a **vibrant color palette** (blues, purples, oranges) with a **clean, professional look**. The illustration should feel **creative, tech-savvy, and educational**, ideal for visualizing concepts in the course.  
+⚠️ **The image should be in 3D style and always have an aspect ratio of 16:9.**
+
+Also include:
+- Chapter Names
+- Topics under each chapter
+- Duration for each chapter
+
+Return the result in **JSON format only** using the following schema:
+
 {
     "course": {
         "name": "string",
@@ -78,17 +92,31 @@ export async function POST(req) {
         const rawJSON = responseText.replace('```json', '').replace('```', '');
         const JSONResponse = JSON.parse(rawJSON);
 
-<<<<<<< HEAD
         // Generate Banner Image
+        const bannerImagePrompt = JSONResponse.course?.bannerImagePrompt;
 
-=======
->>>>>>> origin/develop
+        // Generate Image Code
+        const client = new InferenceClient(process.env.HF_API_KEY);
+
+        const image = await client.textToImage({
+            provider: "nebius",
+            model: "black-forest-labs/FLUX.1-schnell",
+            inputs: bannerImagePrompt,
+            parameters: { num_inference_steps: 5 },
+        });
+
+        // Convert Blob to base64
+        const buffer = await image.arrayBuffer();
+        const base64Image = Buffer.from(buffer).toString("base64");
+
+
         // Uncomment when ready to persist to DB
         const result = await db.insert(coursesTable).values({
             ...formData,
             courseJSON: JSONResponse,
             userEmail: user.primaryEmailAddress?.emailAddress,
-            cid: courseId
+            cid: courseId,
+            bannerImageUrl: `data:image/png;base64,${base64Image}`
         });
 
         return NextResponse.json({
