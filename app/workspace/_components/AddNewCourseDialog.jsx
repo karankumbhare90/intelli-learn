@@ -21,6 +21,7 @@ import { useCallback, useMemo, useState } from 'react';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 const defaultForm = {
     name: '',
@@ -56,11 +57,15 @@ export default function AddNewCourseDialog({ children }) {
             };
 
             const { data } = await axios.post('/api/generate-course-layout', payload);
-
-            router.push(`/workspace/course/${courseId}`);
+            console.log(data);
+            if (data?.success) {
+                router.push(`/workspace/edit-course/${courseId}`);
+                toast.success(data?.message);
+            }
             // Optionally: route, toast, or update course state here
         } catch (err) {
             console.error('Error generating course:', err);
+            toast.error(err?.message);
             // TODO: Toast or error message
         } finally {
             setLoading(false);

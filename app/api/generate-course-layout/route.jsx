@@ -120,6 +120,7 @@ export async function POST(req) {
         });
 
         return NextResponse.json({
+            success: true,
             status: 201,
             message: 'Course Layout Generated Successfully',
             data: { courseId: courseId },
@@ -128,6 +129,7 @@ export async function POST(req) {
     } catch (error) {
         console.error('Error generating course:', error);
         return NextResponse.json({
+            success: false,
             status: 500,
             message: 'Internal Server Error',
             error: error.message || error.toString(),
