@@ -1,7 +1,9 @@
+
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
 import { Book, Clock, Loader2Icon, Settings, TrendingUp } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { toast } from 'sonner';
 
@@ -10,6 +12,7 @@ export default function CourseInfo({ course }) {
 
     const courseLayout = course?.courseJSON?.course;
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     if (!courseLayout) {
         return;
@@ -24,6 +27,13 @@ export default function CourseInfo({ course }) {
                 courseTitle: course?.name,
                 courseId: course?.cid
             });
+
+            console.log(result.data);
+
+            if (result?.success) {
+                router.replace('/workspace');
+                toast.success(result?.message);
+            }
 
         } catch (error) {
             toast.error(error?.message || `Something went wrong !!`);

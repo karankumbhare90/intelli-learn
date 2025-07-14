@@ -1,5 +1,5 @@
 
-import { integer, pgTable, varchar, timestamp, json, boolean } from "drizzle-orm/pg-core";
+import { integer, pgTable, varchar, json, boolean } from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable("users", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -20,5 +20,6 @@ export const coursesTable = pgTable("courses", {
     category: varchar(),
     courseJSON: json(),
     bannerImageUrl: varchar().default(''),
+    courseContent: json().default({}),
     userEmail: varchar('userEmail').references(() => usersTable.email),
 })
