@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation'
 import React, { useCallback, useEffect } from 'react'
 import { useState } from 'react';
 import { toast } from 'sonner';
-import CourseInfo from '../_components/CouseInfo';
+import CourseInfo from '../_components/CourseInfo';
 import ChapterTopicList from '../_components/ChapterTopicList';
 
 export default function EditCourse() {
