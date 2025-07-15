@@ -28,8 +28,6 @@ export default function CourseInfo({ course }) {
                 courseId: course?.cid
             });
 
-            console.log(result.data);
-
             if (result?.success) {
                 router.replace('/workspace');
                 toast.success(result?.message);

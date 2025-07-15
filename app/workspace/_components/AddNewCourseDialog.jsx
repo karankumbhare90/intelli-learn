@@ -57,7 +57,6 @@ export default function AddNewCourseDialog({ children }) {
             };
 
             const { data } = await axios.post('/api/generate-course-layout', payload);
-            console.log(data);
             if (data?.success) {
                 router.push(`/workspace/edit-course/${courseId}`);
                 toast.success(data?.message);
