@@ -34,7 +34,7 @@ export default function EnrollCourseCard({ course, enrollCourse }) {
                             </div>
                             <Progress value={CalculateProgress()} />
                         </div>
-                        <Link href={`/workspace/course/${course?.cid}`}>
+                        <Link href={`/workspace/view-course/${course?.cid}`}>
                             <Button className={'w-full'}><PlayCircle /> Continue Learning</Button>
                         </Link>
                     </div>

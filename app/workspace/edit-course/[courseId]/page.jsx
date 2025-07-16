@@ -7,7 +7,8 @@ import { toast } from 'sonner';
 import CourseInfo from '../_components/CourseInfo';
 import ChapterTopicList from '../_components/ChapterTopicList';
 
-export default function EditCourse() {
+export default function EditCourse({ viewCourse = false }) {
+
     const { courseId } = useParams();
     const [loading, setLoading] = useState(false);
     const [course, setCourse] = useState(null);
@@ -41,7 +42,7 @@ export default function EditCourse() {
         <div>
             {course && (
                 <>
-                    <CourseInfo course={course} />
+                    <CourseInfo course={course} viewCourse={viewCourse} />
                     <ChapterTopicList course={course} />
                 </>
             )}
