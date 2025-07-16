@@ -20,8 +20,6 @@ export default function CourseList() {
 
             const { data } = response;
 
-            console.log(data);
-
             if (data?.success) {
                 setCourseList(data?.data || []);
                 toast.success(data.message || "Courses fetched successfully");
@@ -57,7 +55,7 @@ export default function CourseList() {
                         <Button>+ Create your first course</Button>
                     </AddNewCourseDialog>
                 </div>
-                : <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5'>
+                : <div className='pt-5 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5'>
                     {courseList?.map((course, index) => (
                         <CourseCard course={course} key={index} />
                     ))}

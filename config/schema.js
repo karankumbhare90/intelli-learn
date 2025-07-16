@@ -11,7 +11,7 @@ export const usersTable = pgTable("users", {
 
 export const coursesTable = pgTable("courses", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
-    cid: varchar().notNull(),
+    cid: varchar().notNull().unique(),
     name: varchar().notNull(),
     description: varchar(),
     noOfChapters: integer().notNull(),
@@ -22,4 +22,12 @@ export const coursesTable = pgTable("courses", {
     bannerImageUrl: varchar().default(''),
     courseContent: json().default({}),
     userEmail: varchar('userEmail').references(() => usersTable.email),
+})
+
+export const enrollCourseTable = pgTable("enrollCourse", {
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    cid: varchar('cid').references(() => coursesTable.cid),
+    userEmail: varchar('userEmail').references(() => usersTable.email),
+    completedChapters: json(),
+    isCompleted: boolean().default(false),
 })
