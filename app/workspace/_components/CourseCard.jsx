@@ -1,13 +1,38 @@
 import { Button } from '@/components/ui/button';
-import { Book, PlayCircle, Settings } from 'lucide-react';
+import axios from 'axios';
+import { Book, LoaderCircle, PlayCircle, Settings } from 'lucide-react';
 import Image from 'next/image'
 import Link from 'next/link';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { toast } from 'sonner';
 
 export default function CourseCard({ course }) {
 
     const courseJSON = course?.courseJSON?.course;
     const courseContent = course?.courseContent;
+    const [loading, setLoading] = useState(false);
+
+    async function EnrollCourse() {
+        try {
+            const result = await axios.post(`/api/enroll-course`, {
+                courseId: course?.cid
+            });
+
+            if (result?.data?.success) {
+                toast.warning(result.data.message);
+            } else {
+                toast.error(result.data.message || "Failed to enroll");
+            }
+
+        } catch (error) {
+            toast.error(error.message);
+        }
+        finally {
+            setLoading(false);
+        }
+    }
+
+
     return (
         <div className='shadow rounded-xl'>
             <Image
@@ -28,7 +53,7 @@ export default function CourseCard({ course }) {
                     <h2 className='flex items-center gap-1.5'><Book className='text-primary h-5 w-5' />{course?.noOfChapters} Chapters</h2>
                     {courseContent.length > 0 ? (
                         <>
-                            <Button size={'sm'}><PlayCircle /> Start Learning</Button>
+                            <Button size={'sm'} onClick={EnrollCourse} disabled={loading}>{loading ? <LoaderCircle className='animate-spin' /> : <PlayCircle />} Start Learning</Button>
                         </>
                     )
                         :
