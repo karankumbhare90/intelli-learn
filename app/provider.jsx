@@ -1,5 +1,6 @@
 "use client";
 
+import { SelectedChapterIndexContext } from "@/context/SelectedChapterIndexContext";
 import { UserDetailContext } from "@/context/UserDetailContext";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
@@ -10,6 +11,7 @@ export default function Provider({ children }) {
     const { user } = useUser();
 
     const [userDetail, setUserDetail] = useState();
+    const [selectedChapterIndex, setSelectedChapterIndex] = useState(0)
 
 
     useEffect(() => {
@@ -28,7 +30,9 @@ export default function Provider({ children }) {
 
     return (
         <UserDetailContext.Provider value={{ userDetail, setUserDetail }}>
-            {children}
+            <SelectedChapterIndexContext.Provider value={{ selectedChapterIndex, setSelectedChapterIndex }}>
+                {children}
+            </SelectedChapterIndexContext.Provider>
         </UserDetailContext.Provider>
     )
 }

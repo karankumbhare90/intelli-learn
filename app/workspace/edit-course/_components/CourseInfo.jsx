@@ -1,14 +1,14 @@
 
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
-import { Book, Clock, Loader2Icon, Settings, TrendingUp } from 'lucide-react';
+import { Book, Clock, Loader2Icon, PlayCircle, Settings, TrendingUp } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { toast } from 'sonner';
 
-export default function CourseInfo({ course }) {
-
+export default function CourseInfo({ course, viewCourse }) {
 
     const courseLayout = course?.courseJSON?.course;
     const [loading, setLoading] = useState(false);
@@ -70,7 +70,14 @@ export default function CourseInfo({ course }) {
                     </div>
 
                 </div>
-                <Button onClick={GenerateCourseContent} disabled={loading} className={'w-auto cursor-pointer'}>{loading ? <Loader2Icon className='animate-spin' /> : <Settings />}Generate Content</Button>
+                {!viewCourse ?
+
+                    <Button onClick={GenerateCourseContent} disabled={loading} className={'w-auto cursor-pointer'}>{loading ? <Loader2Icon className='animate-spin' /> : <Settings />}Generate Content</Button>
+                    :
+                    <Link href={`/course/${course.cid}`}>
+                        <Button><PlayCircle />Contine Learning</Button>
+                    </Link>
+                }
             </div>
             {/* <div className='relative overflow-hidden'> */}
             <Image
