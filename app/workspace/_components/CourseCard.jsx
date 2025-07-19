@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Book, LoaderCircle, PlayCircle, Settings } from 'lucide-react';
 import Image from 'next/image'
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { toast } from 'sonner';
 
@@ -11,6 +12,7 @@ export default function CourseCard({ course }) {
     const courseJSON = course?.courseJSON?.course;
     const courseContent = course?.courseContent;
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     async function EnrollCourse() {
         try {
@@ -20,6 +22,7 @@ export default function CourseCard({ course }) {
 
             if (result?.data?.success) {
                 toast.warning(result.data.message);
+                router.push(`/course/${course?.cid}`)
             } else {
                 toast.error(result.data.message || "Failed to enroll");
             }

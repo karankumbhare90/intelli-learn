@@ -57,7 +57,12 @@ export default function AddNewCourseDialog({ children }) {
             };
 
             const { data } = await axios.post('/api/generate-course-layout', payload);
-            if (data?.success) {
+
+            if (data?.message === 'Free Limit Exceed !!') {
+                toast.warning(data?.message)
+                router.push('/workspace/billings');
+            }
+            else if (data?.success) {
                 router.push(`/workspace/edit-course/${courseId}`);
                 toast.success(data?.message);
             }
