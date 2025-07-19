@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 "use client";
 import { Button } from '@/components/ui/button';
 import { SelectedChapterIndexContext } from '@/context/SelectedChapterIndexContext';
@@ -62,23 +61,6 @@ export default function ChapterContent({ courseInfo, refreshData }) {
         }
     }
     const completedChapter = enrollCourse?.completedChapters?.includes(selectedChapterIndex);
-=======
-import { SelectedChapterIndexContext } from '@/context/SelectedChapterIndexContext';
-import React, { useContext } from 'react'
-import YouTube from 'react-youtube';
-
-export default function ChapterContent({ courseInfo }) {
-    const { course, enrollCourse } = courseInfo
-    const courseContent = courseInfo?.courses?.courseContent;
-
-    console.log(courseInfo);
-
-    const { selectedChapterIndex, setSelectedChapterIndex } = useContext(SelectedChapterIndexContext);
-    const videoData = courseContent?.[selectedChapterIndex]?.youtubeVideo;
-    const topics = courseContent?.[selectedChapterIndex]?.courseData?.topics;
-
-    console.log(topics)
->>>>>>> origin/develop
 
 
     return (
@@ -86,7 +68,6 @@ export default function ChapterContent({ courseInfo }) {
             {courseContent?.[selectedChapterIndex]?.courseData?.chapterName
                 &&
                 <>
-<<<<<<< HEAD
                     <div className='w-full flex items-center justify-between'>
                         <h2 className='font-bold text-xl'>{selectedChapterIndex + 1}. {courseContent?.[selectedChapterIndex]?.courseData?.chapterName}</h2>
                         {!completedChapter
@@ -94,9 +75,6 @@ export default function ChapterContent({ courseInfo }) {
                             : <Button onClick={() => MarkAsChapterIncompleted()} disabled={loading} variant={'outline'} className={`bg-transparent text-primary hover:text-black`}>{loading ? <Loader2Icon className='animate-spin' /> : <X />} Mark as Incompleted</Button>
                         }
                     </div>
-=======
-                    <h2 className='font-bold text-xl'>{selectedChapterIndex + 1}. {courseContent?.[selectedChapterIndex]?.courseData?.chapterName}</h2>
->>>>>>> origin/develop
 
                     <h2 className='py-2 text-lg font-semibold'>Related Videos 🎬</h2>
 
@@ -127,10 +105,6 @@ export default function ChapterContent({ courseInfo }) {
                     </div>
                 </>
             }
-<<<<<<< HEAD
         </div >
-=======
-        </div>
->>>>>>> origin/develop
     )
 }
