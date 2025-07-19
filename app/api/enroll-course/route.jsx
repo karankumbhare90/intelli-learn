@@ -5,7 +5,7 @@ import { eq, and } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
-    const { courseId } = await req.json(); // ✅ Now 'req' is defined
+    const { courseId } = await req.json();
 
     const user = await currentUser();
     if (!user || !user.primaryEmailAddress?.emailAddress) {
@@ -79,5 +79,27 @@ export async function GET(req) {
             data: result
         })
     }
+<<<<<<< HEAD
 
+}
+
+export async function PUT(req) {
+    const { completedChapter, courseId } = await req.json();
+    const user = await currentUser();
+
+    const result = await db.update(enrollCourseTable).set({
+        completedChapters: completedChapter,
+    })
+        .where(and(eq(enrollCourseTable.cid, courseId), eq(enrollCourseTable.userEmail, user?.primaryEmailAddress?.emailAddress)))
+        .returning(enrollCourseTable);
+
+    return NextResponse.json({
+        success: true,
+        status: 201,
+        data: result,
+        message: `Chapter Completed !!`
+    })
+=======
+
+>>>>>>> origin/develop
 }
