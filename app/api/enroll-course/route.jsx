@@ -79,8 +79,6 @@ export async function GET(req) {
             data: result
         })
     }
-<<<<<<< HEAD
-
 }
 
 export async function PUT(req) {
@@ -99,7 +97,5 @@ export async function PUT(req) {
         data: result,
         message: `Chapter Completed !!`
     })
-=======
 
->>>>>>> origin/develop
 }
