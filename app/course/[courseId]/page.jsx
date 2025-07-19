@@ -20,6 +20,7 @@ export default function Course() {
 
             if (data.success) {
                 setCourseInfo(data?.data);
+                toast.success(data.message);
             } else {
                 toast.error(data.message || "Failed to fetch enrolled courses.");
             }
@@ -37,7 +38,7 @@ export default function Course() {
             <AppHeader hideSidebar={true} />
             <div className='flex gap-10'>
                 <ChapterListSidebar courseInfo={courseInfo} />
-                <ChapterContent courseInfo={courseInfo} />
+                <ChapterContent courseInfo={courseInfo} refreshData={() => GetEnrollCourseById()} />
             </div>
         </div>
     )
