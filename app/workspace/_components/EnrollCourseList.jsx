@@ -14,6 +14,8 @@ export default function EnrollCourseList() {
             const response = await axios.get(`/api/enroll-course`);
             const { data } = response;
 
+            console.log(data)
+
             if (data.success) {
                 setEnrollCourseList(data?.data);
             } else {

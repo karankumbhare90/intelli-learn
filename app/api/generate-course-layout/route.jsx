@@ -1,9 +1,10 @@
 import { db } from '@/config/db';
 import { coursesTable } from '@/config/schema';
-import { currentUser } from '@clerk/nextjs/server';
+import { auth, currentUser } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import { InferenceClient } from "@huggingface/inference";
 import { ai } from '../generate-course-content/route';
+import { eq } from 'drizzle-orm';
 
 const PROMPT = `
 Generate Learning Course based on the following details. Make sure to include:
@@ -48,6 +49,9 @@ export async function POST(req) {
     try {
         const { courseId, ...formData } = await req.json();
         const user = await currentUser();
+        const { has } = await auth()
+
+        const hasPremiumAccess = has({ plan: 'starter' } || { plan: 'premium' })
 
         if (!user) {
             return NextResponse.json({ status: 401, message: 'Unauthorized user', data: null });
@@ -72,6 +76,20 @@ export async function POST(req) {
                 ],
             },
         ];
+
+        // Check if user already generated course
+        if (!hasPremiumAccess) {
+            const result = await db.select().from(coursesTable)
+                .where(eq(coursesTable.userEmail, user?.primaryEmailAddress?.emailAddress));
+
+            if (result.length >= 1) {
+                return NextResponse.json({
+                    success: true,
+                    status: 201,
+                    message: 'Free Limit Exceed !!'
+                })
+            }
+        }
 
         const response = await ai.models.generateContent({
             model,
